@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Scatter } from 'react-chartjs-2';
+import "./App.css"
 
 import {
   
@@ -11,6 +12,7 @@ import {
   CategoryScale,
   PointElement,
 } from "chart.js";
+import Card from './components/cards';
 
 ChartJS.register(
   LinearScale,
@@ -25,8 +27,10 @@ const YourComponent = () => {
   const trendDataUrl = 'http://10.243.22.169:8080/all_data';
   const pollingInterval = 1000; // 1 second
 
-  const [liveState, setLiveState] = useState('');
+  const [liveState, setLiveState] = useState({});
   const [trendData, setTrendData] = useState([]);
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,7 +67,7 @@ const YourComponent = () => {
       label: 'Trend Data',
       data: trendData.map(entry => ({
         x: entry.timestamp,
-        y: entry.state
+        y: entry.temperature
       })),
       backgroundColor: 'rgba(255, 99, 132, 0.5)', // Example color
       borderColor: 'rgba(255, 99, 132, 1)', // Example color
@@ -79,13 +83,6 @@ const YourComponent = () => {
         scaleLabel: {
           display: true,
           labelString: 'Timestamp'
-        },
-        ticks: {
-          callback: function(value, index, values) {
-            // Convert Unix timestamp to human-readable date and time
-           // const timestamp = new Date(value * 1000); // Convert to milliseconds
-            return 'kat'
-          }
         }
       }],
       yAxes: [{
@@ -98,10 +95,11 @@ const YourComponent = () => {
   };
 
   return (
-    <div>
+    <div className='App'>
+      <Card/>
       <div className="card">
         <h2>Live State</h2>
-        <p>{liveState}</p>
+        <p>{JSON.stringify(liveState)}</p>
       </div>
       <div className="trend-graph" style={{height:'30rem'}}>
         <Scatter data={chartData} options={chartOptions} />
