@@ -16,8 +16,8 @@ ChartJS.register(LinearScale, PointElement, LineElement, CategoryScale);
 
 const YourComponent = () => {
   // Define variables for URLs and polling timings
-  const liveStateUrl = "http://49.205.216.134/:8081/latest_state";
-  const trendDataUrl = "http://49.205.216.134/:8081/all_data";
+  const liveStateUrl = "http://49.205.216.134:8081/latest_state";
+  const trendDataUrl = "http://49.205.216.134:8081/all_data";
   const pollingInterval = 1000; // 1 second
 
   const [liveState, setLiveState] = useState({});
