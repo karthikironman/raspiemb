@@ -126,11 +126,16 @@ void serverThread()
     Server server;
 
     // Enable CORS for all endpoints
-    server.set_default_headers([](Response& res){
+    
+    // Define a lambda function for setting default headers
+    auto defaultHeadersHandler = [](Response& res) {
         res.set_header("Access-Control-Allow-Origin", "*");
         res.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-        res.set_header("Access-Control-Allow-Headers", "Content-Type"); 
-    });
+        res.set_header("Access-Control-Allow-Headers", "Content-Type");
+    };
+
+    // Set default headers using the defined lambda function
+    server.set_default_headers(defaultHeadersHandler);
 
     server.Get("/latest_state", [](const Request &req, Response &res)
                {
