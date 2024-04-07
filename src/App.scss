@@ -1,0 +1,22 @@
+.App {
+  text-align: center;
+  font-family: Montserrat;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  .App__sidebar{
+    display:flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-around;
+    margin:0 0 0 1rem;
+  }
+  .App__trend-graph{
+    width:100%;
+    height: 100%;
+    padding:2rem;
+    margin:2rem;
+  }
+}
