@@ -17,7 +17,8 @@ using namespace httplib;
 #define DHTPIN 7
 int dht11_dat[5] = {0, 0, 0, 0, 0};
 
-struct Data {
+struct Data
+{
     time_t timestamp;
     bool state;
     float temperature; // Added temperature field
@@ -27,7 +28,8 @@ struct Data {
 deque<Data> circularBuffer;
 const int bufferCapacity = 3600;
 
-void read_dht11_dat() {
+void read_dht11_dat()
+{
     uint8_t laststate = HIGH;
     uint8_t counter = 0;
     uint8_t j = 0, i;
@@ -42,12 +44,15 @@ void read_dht11_dat() {
     delayMicroseconds(40);
     pinMode(DHTPIN, INPUT);
 
-    for (i = 0; i < MAXTIMINGS; i++) {
+    for (i = 0; i < MAXTIMINGS; i++)
+    {
         counter = 0;
-        while (digitalRead(DHTPIN) == laststate) {
+        while (digitalRead(DHTPIN) == laststate)
+        {
             counter++;
             delayMicroseconds(1);
-            if (counter == 255) {
+            if (counter == 255)
+            {
                 break;
             }
         }
@@ -56,7 +61,8 @@ void read_dht11_dat() {
         if (counter == 255)
             break;
 
-        if ((i >= 4) && (i % 2 == 0)) {
+        if ((i >= 4) && (i % 2 == 0))
+        {
             dht11_dat[j / 8] <<= 1;
             if (counter > 16)
                 dht11_dat[j / 8] |= 1;
@@ -65,7 +71,8 @@ void read_dht11_dat() {
     }
 
     if ((j >= 40) &&
-        (dht11_dat[4] == ((dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))) {
+        (dht11_dat[4] == ((dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF)))
+    {
         float humidity = (float)dht11_dat[0] + (float)dht11_dat[1] / 10.0;
         float temperature = (float)dht11_dat[2] + (float)dht11_dat[3] / 10.0;
         printf("Humidity = %.1f %% Temperature = %.1f C (%.1f F)\n", humidity, temperature, temperature * 9 / 5 + 32);
@@ -78,15 +85,19 @@ void read_dht11_dat() {
         circularBuffer.push_back(newData);
 
         // Remove oldest data if buffer exceeds capacity
-        if (circularBuffer.size() > bufferCapacity) {
+        if (circularBuffer.size() > bufferCapacity)
+        {
             circularBuffer.pop_front();
         }
-    } else {
+    }
+    else
+    {
         printf("Data not good, skip\n");
     }
 }
 
-void updateState() {
+void updateState()
+{
     bool state = digitalRead(1);
 
     // Create new data entry
@@ -98,7 +109,8 @@ void updateState() {
     circularBuffer.push_back(newData);
 
     // Remove oldest data if buffer exceeds capacity
-    if (circularBuffer.size() > bufferCapacity) {
+    if (circularBuffer.size() > bufferCapacity)
+    {
         circularBuffer.pop_front();
     }
 
@@ -109,10 +121,19 @@ void updateState() {
     cout << "state = " << newData.state << ", timestamp = " << newData.timestamp << endl;
 }
 
-void serverThread() {
+void serverThread()
+{
     Server server;
 
-    server.Get("/latest_state", [](const Request& req, Response& res) {
+    // Enable CORS for all endpoints
+    server.set_default_headers([](Response &res)
+                               {
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+        res.set_header("Access-Control-Allow-Headers", "Content-Type"); });
+
+    server.Get("/latest_state", [](const Request &req, Response &res)
+               {
         if (circularBuffer.empty()) {
             res.status = 404;
             res.set_content("No data available", "text/plain");
@@ -129,10 +150,10 @@ void serverThread() {
         response += "}";
 
         res.set_content(response, "application/json");
-        cout << "Request received for latest_state endpoint" << endl;
-    });
+        cout << "Request received for latest_state endpoint" << endl; });
 
-    server.Get("/all_data", [](const Request& req, Response& res) {
+    server.Get("/all_data", [](const Request &req, Response &res)
+               {
         if (circularBuffer.empty()) {
             res.status = 404;
             res.set_content("No data available", "text/plain");
@@ -151,13 +172,13 @@ void serverThread() {
         response += "]";
 
         res.set_content(response, "application/json");
-        cout << "Request received for all_data endpoint" << endl;
-    });
+        cout << "Request received for all_data endpoint" << endl; });
 
     server.listen("0.0.0.0", 8080);
 }
 
-int main() {
+int main()
+{
     wiringPiSetup();
     pinMode(0, OUTPUT);
     pinMode(1, INPUT);
@@ -165,10 +186,12 @@ int main() {
     cout << "Program started" << endl;
 
     // Start server in a separate thread
-    thread serverThread([]() { ::serverThread(); });
+    thread serverThread([]()
+                        { ::serverThread(); });
 
     // Main program loop
-    while (1) {
+    while (1)
+    {
         read_dht11_dat(); // Read DHT11 data
         updateState();    // Update state
         delay(1000);
