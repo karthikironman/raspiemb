@@ -181,7 +181,7 @@ void serverThread()
         res.set_content(response, "application/json");
         cout << "Request received for all_data endpoint" << endl; });
 
-    server.listen("0.0.0.0", 8080);
+    server.listen("0.0.0.0", 8081);
 }
 
 int main()
