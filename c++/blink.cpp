@@ -26,7 +26,7 @@ struct Data
 };
 
 deque<Data> circularBuffer;
-const int bufferCapacity = 3600;
+const int bufferCapacity = 60;
 
 void read_dht11_dat()
 {
