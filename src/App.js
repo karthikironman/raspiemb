@@ -57,9 +57,11 @@ const YourComponent = () => {
     datasets: [
       {
         label: "Trend Data",
-        data: trendData.map((entry) => ({
+        data: trendData
+        .filter(entry => entry.temperature !== 0)
+        .map(entry => ({
           x: entry.timestamp,
-          y: entry.humidity,
+          y: entry.temperature
         })),
         backgroundColor: "rgba(255, 99, 132, 0.5)", // Example color
         borderColor: "rgba(255, 99, 132, 1)", // Example color
