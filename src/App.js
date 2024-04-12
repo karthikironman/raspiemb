@@ -58,7 +58,7 @@ const YourComponent = () => {
       {
         label: "Trend Data",
         data: trendData
-        .filter(entry => entry.temperature !== 0)
+        .filter(entry => (entry.temperature > 5 && entry.timestamp < 45))
         .map(entry => ({
           x: entry.timestamp,
           y: entry.temperature
