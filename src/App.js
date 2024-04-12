@@ -49,7 +49,7 @@ const YourComponent = () => {
   }, []);
 
   useEffect(() => {
-    console.log(trendData);
+    console.log('FILTERED DATA',trendData.filter(entry => entry.temperature > 5 && entry.temperature < 45))
   }, [trendData, liveState]);
 
   // Prepare data for Line chart
@@ -58,7 +58,7 @@ const YourComponent = () => {
       {
         label: "Trend Data",
         data: trendData
-        .filter(entry => (entry.temperature > 5 && entry.timestamp < 45))
+        .filter(entry => entry.temperature > 5 && entry.temperature < 45)
         .map(entry => ({
           x: entry.timestamp,
           y: entry.temperature
@@ -92,9 +92,8 @@ const YourComponent = () => {
       },
       y: {
         ticks: {
-          min: 0, // Set minimum value of y-axis
-          max: 110, // Set maximum value of y-axis
-          stepSize: 10, // Set step size of y-axis
+          stepSize: 0.1, // Set step size of y-axis
+          color: "white",
         },
         title: {
           color: "white",
@@ -105,17 +104,13 @@ const YourComponent = () => {
             family: "Montserrat",
           },
         },
-        ticks: {
-          color: "white",
-        },
-        min: 20,
-        max: 40,
       },
     },
     legend: {
       display: true,
     },
   };
+  
 
   function convertTimestampTo12HourFormat(timestamp) {
     // Create a new Date object with the timestamp in milliseconds
