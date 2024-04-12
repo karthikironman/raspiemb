@@ -73,6 +73,7 @@ const YourComponent = () => {
   // Chart options
   // Chart options
   const chartOptions = {
+    animation:false,
     scales: {
       x: {
         type: "linear",
