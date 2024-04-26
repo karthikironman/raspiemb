@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Player</title>
+    <style>
+        /* Center the video and controls on the page */
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Style the select dropdown */
+        select {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+
+        /* Style the video player */
+        video {
+            width: 80%;
+            height: auto;
+        }
+    </style>
+    <script>
+        function changeVideo() {
+            var videoElement = document.getElementById("videoPlayer");
+            var videoSelect = document.getElementById("videoSelect");
+            var selectedVideo = videoSelect.value;
+            videoElement.src = selectedVideo;
+            videoElement.play(); // Automatically play the selected video
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Dropdown menu to select a video -->
+        <label for="videoSelect">Choose a video:</label>
+        <select id="videoSelect" onchange="changeVideo()">
+            <!-- Options for 38 video files -->
+            <!-- The value of each option is the filename -->
+            <!-- The text displayed to the user is the video number -->
+            <!-- You can also modify the displayed text if needed -->
+            <option value="1.mp4">Video 1</option>
+            <option value="2.mp4">Video 2</option>
+            <option value="3.mp4">Video 3</option>
+            <option value="4.mp4">Video 4</option>
+            <option value="5.mp4">Video 5</option>
+            <option value="6.mp4">Video 6</option>
+            <option value="7.mp4">Video 7</option>
+            <option value="8.mp4">Video 8</option>
+            <option value="9.mp4">Video 9</option>
+            <option value="10.mp4">Video 10</option>
+            <option value="11.mp4">Video 11</option>
+            <option value="12.mp4">Video 12</option>
+            <option value="13.mp4">Video 13</option>
+            <option value="14.mp4">Video 14</option>
+            <option value="15.mp4">Video 15</option>
+            <option value="16.mp4">Video 16</option>
+            <option value="17.mp4">Video 17</option>
+            <option value="18.mp4">Video 18</option>
+            <option value="19.mp4">Video 19</option>
+            <option value="20.mp4">Video 20</option>
+            <option value="21.mp4">Video 21</option>
+            <option value="22.mp4">Video 22</option>
+            <option value="23.mp4">Video 23</option>
+<option value="24.mp4">Video 24</option>
+<option value="25.mp4">Video 25</option>
+<option value="26.mp4">Video 26</option>
+<option value="27.mp4">Video 27</option>
+<option value="28.mp4">Video 28</option>
+<option value="29.mp4">Video 29</option>
+<option value="30.mp4">Video 30</option>
+<option value="31.mp4">Video 31</option>
+<option value="32.mp4">Video 32</option>
+<option value="33.mp4">Video 33</option>
+<option value="34.mp4">Video 34</option>
+<option value="35.mp4">Video 35</option>
+<option value="36.mp4">Video 36</option>
+<option value="37.mp4">Video 37</option>
+<option value="38.mp4">Video 38</option>
+        </select>
+
+        <!-- Video player -->
+        <video id="videoPlayer" controls>
+            <!-- Default video source (optional) -->
+            <source src="1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+</body>
+</html>
